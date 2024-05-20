@@ -1,8 +1,13 @@
 package org.example;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
+
+import static javax.xml.crypto.dsig.DigestMethod.SHA256;
 
 public class Auth {
     private List<Person> people = new ArrayList<Person>();
@@ -60,11 +65,37 @@ public class Auth {
         Optional<Integer> id = people.stream().map(person -> person.id + 1).max(Comparator.naturalOrder());
         return id.orElse(0);
     }
+
+    private static String bytesToHex(byte[] hash) {
+        StringBuilder hexString = new StringBuilder(2 * hash.length);
+        for (int i = 0; i < hash.length; i++) {
+            String hex = Integer.toHexString(0xff & hash[i]);
+            if(hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();
+    }
+
+    private String encrypt_password(String plain_text){
+        byte[] bytes = plain_text.getBytes(StandardCharsets.UTF_8);
+        try{
+            bytes = MessageDigest.getInstance("SHA256")
+                    .digest(bytes);
+
+        } catch (NoSuchAlgorithmException e){
+            e.printStackTrace();
+            // throw new RuntimeException(e);
+        }
+
+        return bytesToHex(bytes);
+    }
     public Person authenticate(String login, String password){
         boolean isIn = false;
         for(var p: people) {
 
-            if(p.login.equals(login) && p.password.equals(password)){
+            if(p.login.equals(login) && p.password.equals(encrypt_password(password))){
                 return p;
             }
             if(p.login.equals(login)){
@@ -89,6 +120,7 @@ public class Auth {
             return false; // użytkownik już istnieje
         this.people.add(p);
         p.id = id_generator();
+        p.password = encrypt_password(p.password);
         save_users();
         return true;
     }
