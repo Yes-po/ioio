@@ -34,7 +34,25 @@ public class Menu {
     private void registerMenu() {
         System.out.println("Podaj swoj login");
         String login = scanner.next();
+        System.out.println("Podaj swoje haslo");
+        String password = scanner.next();
+        System.out.println("Potwierdź hasło");
+        String password2 = scanner.next();
 
+        // id zostannie zmienione przy zapisie.
+        Customer person = new Customer(login, password, 0);
+
+        if (password.equals(password2)){
+            boolean success = system.register(person);
+
+            if (success)
+                System.out.println("Pomylsnie zarejestrowano użytkownika");
+            else
+                System.out.println("Jesteś już bazie");
+        }
+        else{
+            System.out.println("Podane hasła są różne");
+        }
     }
 
     void loginMenu(){
@@ -48,6 +66,6 @@ public class Menu {
         if (result)
             System.out.println("Dostep udzielony");
         else
-            System.out.println("Wynocha brudny hakerze");
+            System.out.println("Zle dane");
     }
 }
