@@ -26,6 +26,7 @@ public class Sys implements CustomerSys, AdminSys {
 
     public boolean register(Person person){
         Auth.getInstance().addPerson(person);
+        return true;
     }
     public Product getProduct(Order o){
         return null;
