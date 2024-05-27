@@ -14,18 +14,22 @@ public class Sys implements CustomerSys, AdminSys {
         return false;
     }
 
-    @Override
-    public void buyTickets(Order o) {
 
+    @Override
+    public void buyTickets(Order o, Customer customer) {
+        customer.tickets.addAll(o.tickets);
+        System.out.println("Dodano bilety do konta");
+        System.out.println("Milego ogladania");
     }
 
     public void browseCatalog(){
         catalog.browse();
     }
 
-    public boolean authenticate(String login,String password){
+    public Catalog getCatalog(){return catalog;}
+    public Person authenticate(String login,String password){
         this.auth = Auth.getInstance();
-        return auth.authenticate(login,password) != null;
+        return auth.authenticate(login,password);
     }
 
     public boolean register(Person person){
