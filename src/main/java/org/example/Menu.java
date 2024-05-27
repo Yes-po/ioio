@@ -90,7 +90,12 @@ public class Menu {
         int eventID = scanner.nextInt();
         System.out.println("Ile biletow: ");
         int ticketNum = scanner.nextInt();
+        System.out.println("Live/Stream [0/1]");
+        int isStream = scanner.nextInt();
         Order o = new Order();
+        if(isStream==1)
+            o.setStream();
+
         Event event = system.getCatalog().getEventById(eventID);
 
         if (event == null){

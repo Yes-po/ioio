@@ -18,6 +18,9 @@ public class Sys implements CustomerSys, AdminSys {
     @Override
     public void buyTickets(Order o, Customer customer) {
         customer.tickets.addAll(o.tickets);
+
+        Product product = getProduct(o);
+        System.out.println(product.deliver());
         System.out.println("Dodano bilety do konta");
         System.out.println("Milego ogladania");
     }
