@@ -34,6 +34,7 @@ public class Menu {
     private void registerMenu() {
         System.out.println("Podaj swoj login");
         String login = scanner.next();
+        if()
 
     }
 
