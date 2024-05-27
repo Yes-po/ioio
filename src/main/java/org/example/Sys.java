@@ -4,6 +4,10 @@ public class Sys implements CustomerSys, AdminSys {
     private Catalog catalog;
     private Auth auth;
 
+    public Sys(){
+        catalog = new Catalog();
+    }
+
 
     @Override
     public boolean addEvent() {
@@ -16,7 +20,7 @@ public class Sys implements CustomerSys, AdminSys {
     }
 
     public void browseCatalog(){
-
+        catalog.browse();
     }
 
     public boolean authenticate(String login,String password){
@@ -25,9 +29,17 @@ public class Sys implements CustomerSys, AdminSys {
     }
 
     public boolean register(Person person){
-        Auth.getInstance().addPerson(person);
+       return Auth.getInstance().addPerson(person);
     }
+
     public Product getProduct(Order o){
-        return null;
+        ProductCreator pc;
+        if(o.isStream){
+            pc = new StreamCreator();
+        }
+        else{
+            pc = new PdfCreator();
+        }
+        return pc.createProduct();
     }
 }

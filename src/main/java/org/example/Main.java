@@ -5,5 +5,7 @@ public class Main {
         Sys system = new Sys();
         Menu menu = new Menu(system);
         menu.mainMenu();
+
+
     }
 }

@@ -1,5 +1,6 @@
 package org.example;
 
 public interface Product {
-    public boolean deliver();
+    public String deliver();
+
 }
